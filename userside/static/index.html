@@ -25,13 +25,12 @@
 </body>
 </html> -->
 
-{% if customers %}
+{% if calls %}
     <ul>
-    {% for customer in customers %}
-        <li><a href="/dashboard/{{ customer.phone_number }}/">{{ customer.phone_number }}</a></li>
+    {% for call in calls %}
+        <li>Call {{call.id}} started {{call.callstart}} picked up at {{call.callanswered}} hung up at {{call.callend}}</li>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No polls are available.</p>
+    
 {% endif %}
 

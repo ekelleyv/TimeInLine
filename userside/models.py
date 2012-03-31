@@ -44,9 +44,9 @@ class Call(models.Model):
 	customer = models.ForeignKey(Customer)
 	company = models.ForeignKey(Company)
 	rep = models.ForeignKey(Representative, null=True)
-	callstart = models.DateField(null=True)
-	callanswered = models.DateField(null=True)
-	callend = models.DateField(null=True)
+	callstart = models.DateTimeField(null=True)
+	callanswered = models.DateTimeField(null=True)
+	callend = models.DateTimeField(null=True)
 	
 	#Probably want a function like is_active() or something
 	

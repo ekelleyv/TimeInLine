@@ -7,9 +7,9 @@ from django.utils import timezone
 
 
 def splash(request):
-	customers = Customer.objects.all()
+	calls = Call.objects.all()
 	t = loader.get_template('index.html')
-	c = Context({'customers':customers})
+	c = Context({'calls':calls})
 	return HttpResponse(t.render(c))
 	
 def dashboard(request, caller_id):
