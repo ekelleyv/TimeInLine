@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     
     #Display Calls:
     url(r'^callslist$', 'userside.views.callslist', name='callslist'),
+    
+    #Test Calls:
+    url(r'^test$', 'userside.views.testcalls', name='testcalls'),
 	
 	#API CALLS
 	#url.com/api/call/company_id/caller_id

@@ -17,6 +17,11 @@ def callslist(request):
 	c = Context({'calls':calls})
 	return HttpResponse(t.render(c))
 	
+def testcalls(request):
+	t = loader.get_template('test.html')
+	c = Context()
+	return HttpResponse(t.render(c))
+	
 def dashboard(request, caller_id):
 	return HttpResponse("Hello " + caller_id)
 
