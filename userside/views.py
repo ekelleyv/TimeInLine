@@ -67,7 +67,8 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	
 	if (call.callend):
 		return HttpResponse("There is no active call")
-	
+	if (call.callanswered):
+		return HttpResponse("The call was already picked up")
 	call.rep = rep
 	call.callanswered = timezone.now()
 	call.save()
