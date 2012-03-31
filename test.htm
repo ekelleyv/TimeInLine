@@ -10,12 +10,12 @@ number = document.getElementById("num")
 company = document.getElementById("comp")
 rep = document.getElementById("rep")
 if (control.id == "pickup") {
-  window.open("/API/"+button[2].id+"/"+comp.value+"/"+rep.value+"/"+num.value)
+  window.open("http://127.0.0.1:8000/api/"+button[1].id+"/"+comp.value+"/"+rep.value+"/"+num.value)
 }
 else if (control.id == "hangup") {
-  window.open("/API/"+button[1].id+"/"+comp.value+"/"+num.value)
+  window.open("http://127.0.0.1:8000/api/"+button[2].id+"/"+comp.value+"/"+num.value)
 }
-else window.open("/API/"+button[0].id+"/"+comp.value+"/"+num.value)
+else window.open("http://127.0.0.1:8000/api/"+button[0].id+"/"+comp.value+"/"+num.value)
 
 }
 
@@ -29,8 +29,8 @@ else window.open("/API/"+button[0].id+"/"+comp.value+"/"+num.value)
   Company ID: <input type="text" id="comp"><br />
   Representative ID: <input type="text" id="rep"><br />
   <input type="button" name="but" id="call" value="Call" onclick="create_url(this)">
-  <input type="button" name="but" id="hangup" value="Hang up" onclick="create_url(this)">
   <input type="button" name="but" id="pickup" value="Pick up" onclick="create_url(this)">
+  <input type="button" name="but" id="hangup" value="Hang up" onclick="create_url(this)">
 </form>
 </body>
 </html>
