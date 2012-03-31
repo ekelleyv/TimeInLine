@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 www:
   type: python
 db:
+=======
+www:
+  type: python
+db:
+>>>>>>> origin/master
   type: sqlite

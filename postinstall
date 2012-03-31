@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 #!/bin/sh
 python hellodjango/manage.py syncdb --noinput
 python mkadmin.py
 mkdir -p /home/dotcloud/data/media /home/dotcloud/volatile/static
 python hellodjango/manage.py collectstatic --noinput
+=======
+#!/bin/sh
+python hellodjango/manage.py syncdb --noinput
+python mkadmin.py
+mkdir -p /home/dotcloud/data/media /home/dotcloud/volatile/static
+python hellodjango/manage.py collectstatic --noinput
+>>>>>>> origin/master
