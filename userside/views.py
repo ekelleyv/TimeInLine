@@ -59,7 +59,7 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	
 	#Try and get the most recent call
 	try:
-		call = Call.objects.filter(customer = customer).order_by('callstart')[0] #FIRST OR LAST??
+		call = Call.objects.filter(customer = customer).order_by('-callstart')[0] #FIRST OR LAST??
 	#This should not happen
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
@@ -70,5 +70,28 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	return HttpResponse("Call picked up at " + str(call.callanswered))
 
 def hangup_api(request, company_id, caller_id):
-	return HttpResponse("Call from " + caller_id + " to " + company_id)
+	#Check if customer exists
+	try:
+		customer = Customer.objects.get(phone_number = caller_id)
+	#This should not happen, exit
+	except Customer.DoesNotExist:
+		return HttpResponse("Customer " + caller_id + " does not exist.")
+		
+	#Check if company exists
+	try:
+		company = Company.objects.get(id = company_id)
+	#This should not happen, exit
+	except Company.DoesNotExist:
+		return HttpResponse("Company " + company_id + " does not exist.")
+	
+	#Try and get the most recent call
+	try:
+		call = Call.objects.filter(customer = customer).order_by('-callstart')[0] #FIRST OR LAST??
+	#This should not happen
+	except Call.DoesNotExist:
+		return HttpResponse("Call " + caller_id + " does not exist.")
+	
+	call.callend = datetime.now()
+	call.save()
+	return HttpResponse("Call ended at " + str(call.callend))
 	
