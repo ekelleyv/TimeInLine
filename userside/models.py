@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Company(models.Model):
 	#add this so that in the admin it is 'companies' not 'companys'

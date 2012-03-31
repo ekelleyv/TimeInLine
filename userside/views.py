@@ -3,6 +3,7 @@ from django.template import Context, loader
 from userside.models import *
 from django.http import HttpResponse
 from datetime import datetime
+from django.utils import timezone
 
 
 def splash(request):
@@ -31,7 +32,7 @@ def call_api(request, company_id, caller_id):
 		return HttpResponse("Company " + company_id + " does not exist.")
 	
 	#Create new call
-	call = Call(callstart = datetime.now(), customer=customer, company=company)
+	call = Call(callstart = timezone.now(), customer=customer, company=company)
 	call.save()
 	return HttpResponse("Call at " + str(call.callstart))
 
@@ -65,7 +66,7 @@ def pickup_api(request, company_id, rep_id, caller_id):
 		return HttpResponse("Call " + caller_id + " does not exist.")
 	
 	call.rep = rep
-	call.callanswered = datetime.now()
+	call.callanswered = timezone.now()
 	call.save()
 	return HttpResponse("Call picked up at " + str(call.callanswered))
 
@@ -91,7 +92,7 @@ def hangup_api(request, company_id, caller_id):
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
 	
-	call.callend = datetime.now()
+	call.callend = timezone.now()
 	call.save()
 	return HttpResponse("Call ended at " + str(call.callend))
 	
