@@ -12,4 +12,13 @@ def splash(request):
 	
 def dashboard(request, caller_id):
 	return HttpResponse("Hello " + caller_id)
+
+def call_api(request, company_id, caller_id):
+	return HttpResponse("Call from " + caller_id + " to " + company_id)
+
+def pickup_api(request, company_id, caller_id):
+	return HttpResponse("Call from " + caller_id + " to " + company_id)
+
+def hangup_api(request, company_id, caller_id):
+	return HttpResponse("Call from " + caller_id + " to " + company_id)
 	
