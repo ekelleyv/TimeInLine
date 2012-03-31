@@ -65,6 +65,9 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
 	
+	if (call.callend):
+		return HttpResponse("There is no active call")
+	
 	call.rep = rep
 	call.callanswered = timezone.now()
 	call.save()
@@ -91,6 +94,9 @@ def hangup_api(request, company_id, caller_id):
 	#This should not happen
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
+	
+	if (call.callend):
+		return HttpResponse("Call already ended")
 	
 	call.callend = timezone.now()
 	call.save()
