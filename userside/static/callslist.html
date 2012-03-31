@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+<title> List of calls </title>
+</head>
+</body>
+
+{% if calls %}
+    <ul>
+    {% for call in calls %}
+        <li>Call {{call.id}} started {{call.callstart}} picked up at {{call.callanswered}} hung up at {{call.callend}}</li>
+    {% endfor %}
+    </ul>
+    
+{% endif %}
+
+</body>
+</html>
