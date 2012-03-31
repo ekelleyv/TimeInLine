@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Create your views here.
 from django.template import Context, loader
 from userside.models import *
@@ -13,6 +12,4 @@ def splash(request):
 	
 def dashboard(request, caller_id):
 	return HttpResponse("Hello " + caller_id)
-=======
-# Create your views here.
->>>>>>> origin/master
+	

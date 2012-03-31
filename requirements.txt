@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 Django
-=======
-Django
->>>>>>> origin/master
