@@ -11,6 +11,12 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'userside.views.splash', name='splash'),
     url(r'^dashboard/(?P<caller_id>\d+)/$', 'userside.views.dashboard'),
+    
+    #Display Calls:
+    url(r'^callslist$', 'userside.views.callslist', name='callslist'),
+    
+    #Test Calls:
+    url(r'^test$', 'userside.views.testcalls', name='testcalls'),
 	
 	#API CALLS
 	#url.com/api/call/company_id/caller_id

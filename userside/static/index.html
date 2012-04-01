@@ -1,20 +1,25 @@
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
 
 <html lang="en">
-<head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <LINK REL=StyleSheet HREF="css/design.css" TYPE="text/css" MEDIA=screen>
+  <LINK rel="stylesheet" href="{% static "css/style.css" %}" TYPE="text/css" media="screen">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="{% static "jquery.formHints.js" %}></script>
+  <script type="text/javascript">
+      $(function(){
+      // find all the input elements with title attributes
+      $('input[title!=""]').hint();
+      }); 
+  </script>
   <title>TimeinLine</title>
-  <meta name="generator" content="TextMate http://macromates.com/">
-  <meta name="author" content="Edward Kelley">
+  <meta name="author" content="Edward Kelley, John Urbanik">
 </head>
 <body>
   <div id="main">
       <center>
-        <h1>TimeinLine</h1>
-        {{ STATIC_URL }}
-          <img id="logo" width="600" style="padding-top:200px" src="{{ STATIC_URL }}images/Logo1.png" alt="TimeinLine">
+        <img id="logo" width="600" style="padding-top:200px" src="{% static "images/timeinline_transparent.png" %}" alt="TimeinLine">
           <form action="dashboard" method="post">
               <input title="Phone Number" type="text" size="20" name="phone_number"/>
               <input type="submit" class="button" value="Search" name="submit"/>
@@ -23,14 +28,6 @@
       </center>
   </div>
 </body>
-</html> -->
+</html>
 
-{% if calls %}
-    <ul>
-    {% for call in calls %}
-        <li>Call {{call.id}} started {{call.callstart}} picked up at {{call.callanswered}} hung up at {{call.callend}}</li>
-    {% endfor %}
-    </ul>
-    
-{% endif %}
 

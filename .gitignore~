@@ -1,3 +1,4 @@
+#Ignore the created .pyc documents
 *.pyc
-timeinline/development.db
+timeinline/deployment.db
 
