@@ -2,11 +2,16 @@
 
 import os
 import django
+import json #for dot cloud
 # calculated paths for django and the site
 # used as starting points for various other paths
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+with open('/home/dotcloud/environment.json') as f:
+	  env = json.load(f)
 
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -19,12 +24,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(SITE_ROOT, 'deployment.db'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'dotCloudDeployment.db',   # Or path to database file if using sqlite3.
+        'USER': env['DOTCLOUD_DB_SQL_LOGIN'], # Not used with sqlite3.
+        'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],                  # Not used with sqlite3.
+        'HOST': env['DOTCLOUD_DB_SQL_HOST'], # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': int(env['DOTCLOUD_DB_SQL_PORT']),                       # Set to empty string for default. Not used with sqlite3.
     }
 }
 
