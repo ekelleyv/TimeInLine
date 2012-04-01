@@ -17,9 +17,19 @@ def test_position(request, company_id, caller_id):
 	return place_in_line(company_id, caller_id)
 	
 def splash(request):
-	customers = Customer.objects.all()
 	t = loader.get_template('index.html')
-	c = Context({'customers':customers})
+	c = Context()
+	return HttpResponse(t.render(c))
+	
+def callslist(request):
+	calls = Call.objects.all()
+	t = loader.get_template('callslist.html')
+	c = Context({'calls':calls})
+	return HttpResponse(t.render(c))
+	
+def testcalls(request):
+	t = loader.get_template('test.html')
+	c = Context()
 	return HttpResponse(t.render(c))
 	
 def dashboard(request, caller_id):
@@ -87,6 +97,7 @@ def pickup_api(request, company_id, rep_id, caller_id):
 		return HttpResponse("Call already picked up")
 	if(call.callend):
 		return HttpResponse("Call already ended")			
+
 	call.rep = rep
 	call.callanswered = timezone.now()
 	call.save()
@@ -114,7 +125,7 @@ def hangup_api(request, company_id, caller_id):
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
 	
-	if(call.callend):
+	if (call.callend):
 		return HttpResponse("Call already ended")
 	
 	call.callend = timezone.now()
