@@ -4,8 +4,18 @@ from userside.models import *
 from django.http import HttpResponse
 from datetime import datetime
 from django.utils import timezone
+from userside.stats import *
 
+def test_active_calls(request, company_id):
+	calls = active_calls(company_id)
+	#calls = Call.objects.all()
+	t = loader.get_template('test/index.html')
+	c = Context({'calls':calls})
+	return HttpResponse(t.render(c))
 
+def test_position(request, company_id, caller_id):
+	return place_in_line(company_id, caller_id)
+	
 def splash(request):
 	customers = Customer.objects.all()
 	t = loader.get_template('index.html')
@@ -16,6 +26,8 @@ def dashboard(request, caller_id):
 	return HttpResponse("Hello " + caller_id)
 
 def call_api(request, company_id, caller_id):
+	
+	
 	#Check if customer exists
 	try:
 		customer = Customer.objects.get(phone_number = caller_id)
@@ -23,7 +35,13 @@ def call_api(request, company_id, caller_id):
 	except Customer.DoesNotExist:
 		customer = Customer(phone_number = caller_id)
 		customer.save()
-		
+	
+	prev_calls = Call.objects.filter(customer = customer).order_by('-callstart')
+
+	if (len(prev_calls) > 0):
+		if (not prev_calls[0].callend):
+			return HttpResponse("There is already an active call from this number")
+	
 	#Check if company exists
 	try:
 		company = Company.objects.get(id = company_id)
@@ -65,6 +83,10 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
 	
+	if(call.callend):
+		return HttpResponse("Call already picked up")
+	if(call.callend):
+		return HttpResponse("Call already ended")			
 	call.rep = rep
 	call.callanswered = timezone.now()
 	call.save()
@@ -91,6 +113,9 @@ def hangup_api(request, company_id, caller_id):
 	#This should not happen
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
+	
+	if(call.callend):
+		return HttpResponse("Call already ended")
 	
 	call.callend = timezone.now()
 	call.save()

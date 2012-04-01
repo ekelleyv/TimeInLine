@@ -23,6 +23,14 @@ urlpatterns = patterns('',
 	url(r'^api/hangup/(?P<company_id>\d+)/(?P<caller_id>\d+)/$', 'userside.views.hangup_api'),
 	
     # url(r'^timeinline/', include('timeinline.foo.urls')),
+	
+	#TEST URLS
+	#url.com/api/hangup/company_id/caller_id
+	#View active calls
+	url(r'^test/active/(?P<company_id>\d+)$', 'userside.views.test_active_calls'),
+	
+	#View position in line
+	url(r'^test/position/(?P<company_id>\d+)/(?P<caller_id>\d+)$', 'userside.views.test_position'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
