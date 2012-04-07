@@ -21,42 +21,71 @@ def place_in_line(company, caller_id):
 	response.write("Count = " + str(count))
 	return response
 
+# excludes active calls and currently waiting
 def avg_wait(company):
-  # excludes active calls and currently waiting
   calls = Call.objects.filter(company_id=company, callstart__isnull=False, callend__isnull=False)
   if len(calls) == 0:
     return 0
   else:
-    #timedeltas = []
     deltasum = datetime.timedelta(0)
     for call in calls:
       if call.answered == None:
-	#timedeltas.append(call.callend - call.callstart)
 	deltasum += call.callend - call.callstart
       else:
-	#timedeltas.append(call.callanswered - call.callstart)
 	deltasum += call.callanswered - call.callstart
-    # stackoverflow: giving datetime.timedelta(0) as the start value makes sum work on timedeltas
-    #avg_timedelta = sum(timedeltas, datetime.timedelta(0)) / len(timedeltas)
     avg_timedelta = deltasum / len(calls)
     return avg_timedelta
 
-# returns list for hours 0-23
+# returns list of timedeltas for hours 0-23
 def avg_wait_by_hour(company):
   calls = Call.objects.filter(company_id=company, callstart__isnull=False, callend__isnull=False)
-  deltasum_hour =
-  count_hour =
+  deltasum_hour = [datetime.timedelta(0)]*24
+  count_hour = [0]*24
   for call in calls:
-    count_hour[call.day] += 1
+    count_hour[call.callstart.hour] += 1
     if call.answered == None:
-      deltasum_hour[call.day] += call.callend - call.callstart
+      deltasum_hour[call.callstart.hour] += call.callend - call.callstart
     else:
-      deltasum_hour[call.day] += call.callanswered - call.callstart
-  avg_delta_hour = deltasum_hour / count_hour # (element-wise)
+      deltasum_hour[call.callstart.hour] += call.callanswered - call.callstart
+  delta_avg_hour = [datetime.timedelta(0)]*24
+  for i in range(24):
+    delta_avg_hour[i] = deltasum_hour[i] / count_hour[i]
+    # convert to minutes? seconds? (total_second() in python 2.7)
   return avg_delta_hour
 
+# returns list of timedeltas for days 0-6
 def avg_wait_by_day(company):
-  # fill
+  calls = Call.objects.filter(company_id=company, callstart__isnull=False, callend__isnull=False)
+  deltasum_day = [datetime.timedelta(0)]*7
+  count_day = [0]*7
+  for call in calls:
+    count_day[call.callstart.day] += 1
+    if call.callanswered == None:
+      deltasum_day[call.callstart.day] += call.callend - call.callstart
+    else:
+      deltasum_day[call.callstart.day] += call.callanswered - call.callstart
+  delta_avg_day = [datetime.timedelta(0)]*7
+  for i in range(7):
+    delta_avg_day[i] = deltasum_day[i] / count_day[i]
+  return delta_avg_day
 
+# returns 7 lists of 24 timedeltas
 def avg_wait_by_day_hour(company):
-  # list of 7 lists of size 24
+  calls = Call.objects.filter(company_id=company, callstart__isnull=False, callend__isnull=False)
+  deltasum_day_hour = [ [datetime.timedelta(0)*24] ]*7
+  count_day_hour = [ [0]*24 ]*7
+  for call in calls:
+    count_day_hour[call.callstart.day][call.callstart.hour] += 1
+    if call.callanswered == None:
+      deltasum_day_hour[call.callstart.day][call.callstart.hour] += call.callend - call.callstart
+    else:
+      deltasum_day_hour[call.callstart.day][call.callstart.hour] += call.callanswered - call.callstart
+  delta_avg_day_hour = [ [datetime.timedelta(0)*24] ]*7
+  for i in range(7):
+    for j in range(24):
+      delta_avg_day_hour[i][j] = deltasum_day_hour[i][j] / count_day_hour[i][j]
+  return delta_avg_day_hour
+
+
+
+
