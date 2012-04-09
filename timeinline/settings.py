@@ -3,6 +3,7 @@
 import os
 import django
 import json #for dot cloud
+from django.db import utils
 # calculated paths for django and the site
 # used as starting points for various other paths
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))

@@ -23,6 +23,11 @@ def active_company(caller_id):
 	call = Call.objects.filter(customer = curr_customer, callanswered__isnull=True, callend__isnull=True)[0]
 	return call.company
 
+# uses avg_wait()
+def expected_wait_time(company):
+
+
+
 # returns timedelta/minutes
 def avg_wait(company, retMinutes):
   sums, counts = sum_wait_by_day_hour(company, retMinutes)
