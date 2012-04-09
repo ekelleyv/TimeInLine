@@ -35,7 +35,7 @@
             <div class="row">
               <div class="span3">
                 <div class="number">
-                  <span class="special"><sup>#</sup></span>{{position}}
+                  <span class="special"><sup>#</sup></span><span id='position'>{{position}}</span>
 
                 </div>
               </div>
@@ -162,4 +162,16 @@
 
   });
 </script>
+<script type="text/javascript">
+  $(document).ready(function() {
+  $.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
+  setInterval(function() {
+      var load_url = document.URL + '&xhr'
+      $.getJSON(load_url,function(data) {
+        $("#position").text(data.position);
+      });
+    }, 1000); // the "3000" here refers to the time to refresh the div.  it is in milliseconds. 
+  });
+</script>
+
 </html>

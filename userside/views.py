@@ -2,8 +2,9 @@
 from django.template import Context, loader
 from userside.models import *
 from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render_to_response
 from datetime import datetime
-from django.utils import timezone
+from django.utils import timezone, simplejson
 from userside.stats import *
 
 def test_active_calls(request, company_id):
@@ -33,19 +34,24 @@ def testcalls(request):
 	return HttpResponse(t.render(c))
 	
 def dashboard(request):
-	caller_id = request.GET.get('caller_id');
+	caller_id = request.GET.get('caller_id')
+	xhr = request.GET.has_key('xhr')
+	response_dict = {}
 	try:
 		customer = Customer.objects.get(phone_number = caller_id)
 	#Create new customer
 	except Customer.DoesNotExist:
 		return HttpResponseNotFound('<h1>Page not found</h1>')
 	
+	
 	company = active_company(caller_id)
 	position = place_in_line(company, caller_id)
+	response_dict.update({'position':position})
 	
-	t = loader.get_template('bootstrap-dashboard.html')
-	c = Context({'position':position})
-	return HttpResponse(t.render(c))
+	if xhr:
+		return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
+	
+	return render_to_response('bootstrap-dashboard.html', response_dict);
 
 def call_api(request, company_id, caller_id):
 	
