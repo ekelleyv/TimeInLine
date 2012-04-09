@@ -20,7 +20,7 @@
     <div id="bkg" class="span12" height="800px">
         <!-- <div class="hero-unit"> -->
           <center>
-           <img id="logo" width="300" src={% static "images/timeinline_transparent.png"%} alt="TimeinLine">
+           <img id="logo" width="300" src={% static "images/timeinline_300.png"%} alt="TimeinLine">
           </center>
           <div class="row">
             <!-- Current Position -->
@@ -107,13 +107,19 @@
 <script src={% static "Highcharts-2.2.1/js/highcharts.js" %} type="text/javascript"></script>
 <script type="text/javascript">
   $(function () {
+      Highcharts.setOptions({
+        colors: ['#09b1ff', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+      });
       var chart;
       $(document).ready(function() {
           chart = new Highcharts.Chart({
               chart: {
                   renderTo: 'graph_container',
-                  type: 'column',
-  								backgroundColor:'rgba(255, 255, 255, 0.1)'
+                  type: 'areaspline',
+                  backgroundColor:'rgba(255, 255, 255, 0.1)'
+              },
+              credits: {
+                  enabled: false
               },
               title: {
                   text: 'Average Wait Time'
@@ -131,9 +137,9 @@
                       '5pm',
                   ]
               },
-  						legend: {
-  							enabled: false
-  						},
+  			legend: {
+  				enabled: false
+  			},
               yAxis: {
                   min: 0,
                   title: {
@@ -147,15 +153,15 @@
                   }
               },
               plotOptions: {
-                  column: {
-                      pointPadding: 0.2,
-                      borderWidth: 0
+                  series: {
+                      animation: {
+                        duration: 2000,
+                      }
                   }
               },
-                  series: [{
+              series: [{
                   name: 'Company',
                   data: [135, 148, 216, 49, 71, 144, 176, 106, 129]
-
               }]
           });
       });
