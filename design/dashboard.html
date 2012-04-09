@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<LINK REL=StyleSheet HREF="style.css" TYPE="text/css" MEDIA=screen>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+     <script type="text/javascript">
+       google.load('visualization', '1', {packages: ['corechart']});
+     </script>
+  <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Time');
+          data.addColumn('number', 'Average Wait');
+          data.addRows([
+            ['9am', 24],
+            ['10am', 36],
+            ['11am', 42],
+            ['12pm', 34],
+            ['1pm', 26],
+            ['2pm', 45],
+            ['3pm', 43],
+            ['4pm', 24],
+
+          ]);
+
+          var options = {
+            hAxis: {title: 'Time', titleTextStyle: {color: 'red'}}
+          };
+
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+  </script>
+  
+	<title>TimeinLine Dashboard</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Edward Kelley">
+	<!-- Date: 2012-03-29 -->
+</head>
+<body>
+    <center>
+    <img id="logo" width="300" style="padding-top:20px" src="timeinline_transparent.png" alt="TimeinLine">
+    </center>
+  <div id="wrapper">
+      <div id="progress">
+        <img id="progress" width="300" src="progress.png" alt="TimeinLine">
+       </div>
+      <div id="sidebar">
+        <info>12</info>
+        <info>45</info>
+        <info>36</info>
+        
+      </div>
+      <div id="graph">
+        <div id="chart_div" style="width: 400px; height: 200px;"></div>
+      </div>
+      <div id="other">
+        Test
+      </div>
+  </div>
+  <div id="footer">
+    Copyright TimeinLine 2012 
+  </div>
+</body>
+</html>

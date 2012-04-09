@@ -14,10 +14,12 @@ def place_in_line(company, caller_id):
 	current_call = Call.objects.filter(customer = customer).order_by('-callstart')[0]
 	count = 1
 	for call in calls:
-		response.write("Comparing call " + str(call.id) + " against " + str(current_call.id) + "<br>")
 		if (call.callstart < current_call.callstart):
-			response.write("Smaller")
 			count = count + 1
-	response.write("Count = " + str(count))
-	return response
+	return count
+
+def active_company(caller_id):
+	curr_customer = Customer.objects.get(phone_number = caller_id)
+	call = Call.objects.filter(customer = curr_customer, callanswered__isnull=True, callend__isnull=True)[0]
+	return call.company
 	

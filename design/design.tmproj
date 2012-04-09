@@ -3,50 +3,218 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>index.html</string>
+	<string>bootstrap-dashboard.html</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
+			<string>splash-newstyle.css</string>
+			<key>lastUsed</key>
+			<date>2012-04-05T00:07:36Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>bootstrap-dashboard.html</string>
+			<key>lastUsed</key>
+			<date>2012-04-06T00:05:21Z</date>
+			<key>selected</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>filename</key>
 			<string>style.css</string>
 			<key>lastUsed</key>
-			<date>2012-03-29T18:50:13Z</date>
+			<date>2012-04-05T00:20:51Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>graph.js</string>
+			<key>lastUsed</key>
+			<date>2012-04-05T00:09:26Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>index.html</string>
 			<key>lastUsed</key>
-			<date>2012-03-29T18:50:13Z</date>
-			<key>selected</key>
+			<date>2012-04-03T21:21:41Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>dashboard-newstyle.css</string>
+			<key>lastUsed</key>
+			<date>2012-04-06T00:05:21Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>dashboard.html</string>
+			<key>lastUsed</key>
+			<date>2012-04-04T01:22:22Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>bootstrap.html</string>
+			<key>lastUsed</key>
+			<date>2012-04-04T02:30:42Z</date>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Highcharts-2.2.1</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>Highcharts-2.2.1</string>
+		</dict>
+		<dict>
+			<key>expanded</key>
 			<true/>
+			<key>name</key>
+			<string>bootstrap</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string>bootstrap</string>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>151</integer>
+	<integer>114</integer>
 	<key>metaData</key>
 	<dict>
-		<key>index.html</key>
+		<key>Highcharts-2.2.1/examples/column-basic/index.htm</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>40</integer>
+				<integer>15</integer>
 				<key>line</key>
-				<integer>25</integer>
+				<integer>8</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>bootstrap-dashboard.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>43</integer>
+				<key>line</key>
+				<integer>47</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>24</integer>
+		</dict>
+		<key>bootstrap.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>65</integer>
+				<key>line</key>
+				<integer>17</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>bootstrap/css/bootstrap.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>27</integer>
+				<key>line</key>
+				<integer>3759</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>3729</integer>
+		</dict>
+		<key>bootstrap/js/bootstrap.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>dashboard-newstyle.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>16</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>dashboard.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>60</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>4</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>71</integer>
+				<key>line</key>
+				<integer>60</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>60</integer>
+			</dict>
+		</dict>
+		<key>graph.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>64</integer>
+				<key>line</key>
+				<integer>48</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>9</integer>
+		</dict>
 		<key>style.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>14</integer>
+				<integer>22</integer>
 				<key>line</key>
-				<integer>67</integer>
+				<integer>142</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -56,12 +224,18 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>index.html</string>
+		<string>bootstrap-dashboard.html</string>
+		<string>dashboard-newstyle.css</string>
+		<string>graph.js</string>
+		<string>bootstrap.html</string>
+		<string>Highcharts-2.2.1/examples/column-basic/index.htm</string>
 		<string>style.css</string>
+		<string>bootstrap/css/bootstrap.css</string>
+		<string>dashboard.html</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{882, 4}, {558, 874}}</string>
+	<string>{{719, 4}, {721, 874}}</string>
 </dict>
 </plist>
