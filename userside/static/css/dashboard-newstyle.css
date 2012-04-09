@@ -1,0 +1,51 @@
+body {
+	background: transparent;
+}
+
+html {
+	background: url("bkg2.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+
+.hero-unit {
+	padding: 10px;
+	margin-top: 40px;
+  margin-bottom: 30px;
+  background-color: #f8f8f8;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px #888;
+}
+
+#bkg {
+	padding: 10px;
+	margin-left:0px;
+	margin-top: 40px;
+  margin-bottom: 30px;
+  background-color: #f8f8f8;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px #888;
+	
+	
+}
+
+.number {
+	padding-top: 60px;
+	font-size: 100px;
+	height: 120px;
+}
+
+.special {
+	font-size:80px;
+}
+
+.min {
+	font-size: 30px;
+}

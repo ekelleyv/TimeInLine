@@ -10,7 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'userside.views.splash', name='splash'),
-    url(r'^dashboard/(?P<caller_id>\d+)/$', 'userside.views.dashboard'),
+	url(r'^dashboard/$', 'userside.views.dashboard'),
     
     #Display Calls:
     url(r'^callslist$', 'userside.views.callslist', name='callslist'),

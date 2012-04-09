@@ -13,6 +13,31 @@
       $('input[title!=""]').hint();
       }); 
   </script>
+  <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Year');
+          data.addColumn('number', 'Sales');
+          data.addColumn('number', 'Expenses');
+          data.addRows([
+            ['2004', 1000, 400],
+            ['2005', 1170, 460],
+            ['2006', 660, 1120],
+            ['2007', 1030, 540]
+          ]);
+
+          var options = {
+            title: 'Company Performance',
+            hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
+          };
+
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+      </script>
+  
 	<title>TimeinLine</title>
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Edward Kelley">
@@ -21,7 +46,7 @@
 <body>
   <div id="main">
       <center>
-          <img id="logo" width="600" style="padding-top:200px" src="timeinline_transparent.png" alt="TimeinLine">
+          <img id="logo" width="600" style="padding-top:200px, position:fixed" src="timeinline_transparent.png" alt="TimeinLine">
           <form action="results.php" method="post">
               <input title="Phone Number" type="text" size="30" name="address"/>
           <input type="submit" class="button" value="Enter" name="submit"/>

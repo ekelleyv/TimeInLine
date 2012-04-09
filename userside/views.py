@@ -1,7 +1,7 @@
 # Create your views here.
 from django.template import Context, loader
 from userside.models import *
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from datetime import datetime
 from django.utils import timezone
 from userside.stats import *
@@ -17,7 +17,7 @@ def test_position(request, company_id, caller_id):
 	return place_in_line(company_id, caller_id)
 	
 def splash(request):
-	t = loader.get_template('index.html')
+	t = loader.get_template('bootstrap.html')
 	c = Context()
 	return HttpResponse(t.render(c))
 	
@@ -32,8 +32,20 @@ def testcalls(request):
 	c = Context()
 	return HttpResponse(t.render(c))
 	
-def dashboard(request, caller_id):
-	return HttpResponse("Hello " + caller_id)
+def dashboard(request):
+	caller_id = request.GET.get('caller_id');
+	try:
+		customer = Customer.objects.get(phone_number = caller_id)
+	#Create new customer
+	except Customer.DoesNotExist:
+		return HttpResponseNotFound('<h1>Page not found</h1>')
+	
+	company = active_company(caller_id)
+	position = place_in_line(company, caller_id)
+	
+	t = loader.get_template('bootstrap-dashboard.html')
+	c = Context({'position':position})
+	return HttpResponse(t.render(c))
 
 def call_api(request, company_id, caller_id):
 	

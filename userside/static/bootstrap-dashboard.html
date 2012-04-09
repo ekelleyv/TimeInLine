@@ -1,0 +1,165 @@
+{% load staticfiles %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en" style=" background: url({% static "images/bkg2.jpg" %}) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>TimeinLine</title>
+	<link rel="stylesheet" href={% static "bootstrap/css/bootstrap.css"%} type="text/css" media="screen" title="no title" charset="utf-8">
+  <link href={% static "css/dashboard-newstyle.css"%} rel="stylesheet">
+  
+	<!-- Date: 2012-04-03 -->
+</head>
+<body>
+  <div class="container">
+    <div id="bkg" class="span12" height="800px">
+        <!-- <div class="hero-unit"> -->
+          <center>
+           <img id="logo" width="300" src={% static "images/timeinline_transparent.png"%} alt="TimeinLine">
+          </center>
+          <div class="row">
+            <!-- Current Position -->
+            </br>
+            <div class="span6 offset3">
+              <div class="progress progress-striped">
+                 <div class="bar" style="width: 90%;"></div>
+                </div>
+              </div>
+            </div>
+            <center>
+            <div class="row">
+              <div class="span3">
+                <div class="number">
+                  <span class="special"><sup>#</sup></span>{{position}}
+
+                </div>
+              </div>
+              <!-- Graph Area -->
+              <div class="span6">
+                <center>
+                  <div id="graph_container" style="width: 400px; height: 150px"></div>
+                </center>
+                <!-- <div id="chart_div" style="width: 500px; height: 300px;"></div> -->
+              </div>
+              <div class="span3">
+                <div class="widget">
+                  <div class="number">
+                    43<span class="min">min</span>
+                  </div>
+                </div>
+              </div>
+            
+            </div><!-- end row-->
+            </center>
+            <br/>
+          <div class="row">
+            
+          </div><!-- end row>-->
+        <!-- </div> -->
+    </div>
+  </div><!--/.fluid-container-->
+</body>
+<!-- <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+   <script type="text/javascript">
+     google.load('visualization', '1', {packages: ['corechart']});
+   </script>
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time');
+        data.addColumn('number', 'Average Wait');
+        data.addRows([
+          ['9am', 24],
+          ['10am', 36],
+          ['11am', 42],
+          ['12pm', 34],
+          ['1pm', 26],
+          ['2pm', 45],
+          ['3pm', 43],
+          ['4pm', 24],
+
+        ]);
+
+        var options = {
+          backgroundColor: '#f8f8f8',
+          vAxis: {title: 'Average Wait (min)'},
+          legend: {position: 'none'},
+          colors: ['#2542fa']
+          animation:{
+                  duration: 1000,
+                  easing: 'out',
+                },
+          
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+</script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src={% static "Highcharts-2.2.1/js/highcharts.js" %} type="text/javascript"></script>
+<script type="text/javascript">
+  $(function () {
+      var chart;
+      $(document).ready(function() {
+          chart = new Highcharts.Chart({
+              chart: {
+                  renderTo: 'graph_container',
+                  type: 'column',
+  								backgroundColor:'rgba(255, 255, 255, 0.1)'
+              },
+              title: {
+                  text: 'Average Wait Time'
+              },
+              xAxis: {
+                  categories: [
+                      '9am',
+                      '10am',
+                      '11am',
+                      '12pm',
+                      '1pm',
+                      '2pm',
+                      '3pm',
+                      '4pm',
+                      '5pm',
+                  ]
+              },
+  						legend: {
+  							enabled: false
+  						},
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Minutes'
+                  }
+              },
+              tooltip: {
+                  formatter: function() {
+                      return ''+
+                          this.x +': '+ this.y +' min';
+                  }
+              },
+              plotOptions: {
+                  column: {
+                      pointPadding: 0.2,
+                      borderWidth: 0
+                  }
+              },
+                  series: [{
+                  name: 'Company',
+                  data: [135, 148, 216, 49, 71, 144, 176, 106, 129]
+
+              }]
+          });
+      });
+
+  });
+</script>
+</html>
