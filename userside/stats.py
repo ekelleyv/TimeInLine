@@ -16,7 +16,6 @@ def place_in_line(company, caller_id):
 	for call in calls:
 		if (call.callstart < current_call.callstart):
 			count = count + 1
-<<<<<<< HEAD
 	return count
 
 def active_company(caller_id):
@@ -24,9 +23,6 @@ def active_company(caller_id):
 	call = Call.objects.filter(customer = curr_customer, callanswered__isnull=True, callend__isnull=True)[0]
 	return call.company
 	
-=======
-	response.write("Count = " + str(count))
-	return response
 
 # excludes active calls and currently waiting
 def avg_wait(company):
@@ -93,7 +89,3 @@ def avg_wait_by_day_hour(company):
       delta_avg_day_hour[i][j] = deltasum_day_hour[i][j] / count_day_hour[i][j]
   return delta_avg_day_hour
 
-
-
-
->>>>>>> 076d13ac878246cb4cd8fe0d123c853906d19434
