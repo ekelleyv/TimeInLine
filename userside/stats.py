@@ -24,8 +24,7 @@ def active_company(caller_id):
 	return call.company
 
 # uses avg_wait()
-def expected_wait_time(company):
-
+  
 
 
 # returns timedelta/minutes
@@ -87,7 +86,7 @@ def avg_wait_by_day_hour(company, retMinutes):
   if sums is None:
     return None
   avg_day_hour = []
-  if retMinute:
+  if retMinutes:
     for i in range(7):
       avg_day_hour.append([0]*24)
   else:

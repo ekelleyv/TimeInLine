@@ -42,10 +42,19 @@ def dashboard(request):
 	
 	company = active_company(caller_id)
 	position = place_in_line(company, caller_id)
-	
+	avg_waits = avg_wait_naive(company,9,17)
+
 	t = loader.get_template('bootstrap-dashboard.html')
-	c = Context({'position':position})
+	c = Context({'position':position, 'avg_waits':avg_waits})
 	return HttpResponse(t.render(c))
+
+# return list of avg waits for a specifc d.o.w. from start_hr to < end_hr
+# currently hardcode company
+def avg_wait_naive(company,start_hr,end_hr):
+  avg_day_hour = avg_wait_by_day_hour(company,True)
+  day = datetime.now().weekday()
+  return avg_day_hour[day][start_hr:end_hr]
+
 
 def call_api(request, company_id, caller_id):
 	
