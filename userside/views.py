@@ -40,20 +40,33 @@ def dashboard(request):
 	except Customer.DoesNotExist:
 		return HttpResponseNotFound('<h1>Page not found</h1>')
 	
-	company = active_company(caller_id)
-	position = place_in_line(company, caller_id)
+	company   = active_company(caller_id)
+	position  = place_in_line(company, caller_id)
 	avg_waits = avg_wait_naive(company,9,17)
+	avg_serv  = avg_serv_rate(company)
+	reps      = working_reps(company)
+	estimate  = est_wait(avg_serv,reps,position)
+	estimate  = round(estimate, 2)
 
 	t = loader.get_template('bootstrap-dashboard.html')
-	c = Context({'position':position, 'avg_waits':avg_waits})
+	c = Context({'position':position, 'avg_waits':avg_waits,'est_wait':estimate})
 	return HttpResponse(t.render(c))
 
-# return list of avg waits for a specifc d.o.w. from start_hr to < end_hr
-# currently hardcode company
+# return list of avg waits for this d.o.w. from start_hr to < end_hr
 def avg_wait_naive(company,start_hr,end_hr):
-  avg_day_hour = avg_wait_by_day_hour(company,True)
+  avg_wait_day_hour = avg_by_day_hour(company,True,True)
   day = datetime.now().weekday()
-  return avg_day_hour[day][start_hr:end_hr]
+  return avg_wait_day_hour[day][start_hr:end_hr]
+
+# return avg service time for this d.o.w. and hour
+def avg_serv_rate(company):
+  avg_serv_day_hour = avg_by_day_hour(company,True,False) 
+  day = datetime.now()
+  return avg_serv_day_hour[day.weekday()][day.hour]
+
+def est_wait(avg_serv,reps,position):
+  return (avg_serv * position) / reps
+
 
 
 def call_api(request, company_id, caller_id):

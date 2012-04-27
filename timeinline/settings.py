@@ -23,14 +23,14 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dotCloudDeployment.db',   # Or path to database file if using sqlite3.
-        'USER': 'timeinline', # Not used with sqlite3.
-        'PASSWORD': 'princeton',                  # Not used with sqlite3.
-        'HOST': 'test-timeinline.dotcloud.com', # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': 24751,                       # Set to empty string for default. Not used with sqlite3.
-    }
+  'default': {
+      'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+      'NAME': os.path.join(SITE_ROOT, 'deployment.db'),#'dotCloudDeployment.db',   # Or path to database file if using sqlite3.
+      'USER': '',#'timeinline', # Not used with sqlite3.
+      'PASSWORD': '',#'princeton',                  # Not used with sqlite3.
+      'HOST': '',#'test-timeinline.dotcloud.com', # Set to empty string for localhost. Not used with sqlite3.
+      'PORT': '',#24751,                       # Set to empty string for default. Not used with sqlite3.
+   }
 }
 
 # Local time zone for this installation. Choices can be found here:

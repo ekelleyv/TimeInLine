@@ -6,9 +6,11 @@ from userside.models import *
 
 setup_environ(settings)
 
-base = 10
-for i in range(20):
-  num = base + i
-  c = Customer(phone_number=num)
-  c.save()
+c = 7
+cc = 2
+internal = 2
+for i in range(19):
+  r = Representative(company_id=c,callcenter_id=cc,internal_id=internal)
+  r.save()
+  internal = internal + 1
 
