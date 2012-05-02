@@ -58,7 +58,7 @@ class Review(models.Model):
 	overall_rating = models.IntegerField()
 	rep_rating = models.IntegerField()
 	waiting_rating = models.IntegerField()
-	comments = description = models.CharField(max_length = 10000, blank=True)
+	comments = models.CharField(max_length = 10000, blank=True)
 
 
 	
