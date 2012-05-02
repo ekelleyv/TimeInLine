@@ -10,6 +10,7 @@ class Company(models.Model):
 	description = models.CharField(max_length=1000, blank=True)
 	logo_filepath = models.CharField(max_length = 100, blank=True)
 	website_link = models.CharField(max_length = 100, blank=True)
+	phone_number = models.CharField(max_length=20)
 	
 	def __unicode__(self):
 		return self.name
@@ -32,6 +33,7 @@ class CallCenter(models.Model):
 
 class Representative(models.Model):
 	company = models.ForeignKey(Company)
+	active = models.BooleanField()
 	callcenter = models.ForeignKey(CallCenter, blank=True)
 	first_name = models.CharField(max_length = 20, blank=True)
 	last_name = models.CharField(max_length = 20, blank=True)
