@@ -1,5 +1,4 @@
 Django
 Django-evolution
-mysql
-mysql-client-core-5.1
+
 
