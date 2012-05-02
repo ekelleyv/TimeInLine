@@ -55,9 +55,9 @@ class Call(models.Model):
 		
 class Review(models.Model):
 	call = models.ForeignKey(Call)
-	overall_rating = models.Integer()
-	rep_rating = models.Integer()
-	waiting_rating = models.Integer()
+	overall_rating = models.IntegerField()
+	rep_rating = models.IntegerField()
+	waiting_rating = models.IntegerField()
 	comments = description = models.CharField(max_length = 10000, blank=True)
 
 
