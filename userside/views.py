@@ -49,7 +49,9 @@ def dashboard(request):
 	avg_serv  = avg_serv_rate(company)
 	reps      = working_reps(company)
 	estimate  = est_wait(avg_serv,reps,position)
-	estimate  = round(estimate, 2)
+	estimate  = round(estimate, 0)
+	if estimate == 0:
+	  estimate = 1
 	
 	response_dict.update({'position':position, 'avg_waits':avg_waits, 'est_wait':estimate})
 

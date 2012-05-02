@@ -23,11 +23,11 @@ def poisson(lambd):
 
 
 def main():
-  comp = Company.objects.get(id=7)
+  comp = Company.objects.get(id=1)
   t_year = 2012
   t_month = 4
   t_week = 15
-  t_id = 206
+  t_id = 16
   for i in range(0,20):
     cust = Customer.objects.get(id=t_id+i)
     for d in range(0,7):
