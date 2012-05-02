@@ -41,16 +41,16 @@ def process_rest(calls, in_serv):
 
 
 def main():
-  comp_id = 7 #long(raw_input("Company: "))
+  comp_id = 1 #long(raw_input("Company: "))
   soq     = long(raw_input("Size of Queue(max 15): "))
   
   today  = datetime.today()
   comp = Company.objects.get(id=comp_id)
 
   n_reps  = working_reps(comp_id)
-  n_custs = soq + 19
-  base_r = 3
-  base_c = 207
+  n_custs = soq +  19
+  base_r = 1
+  base_c = 16
   custs = []
   for i in range(0,n_custs):
     cust = Customer.objects.get(id=base_c+i)

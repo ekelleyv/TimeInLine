@@ -6,8 +6,8 @@ from userside.models import *
 
 setup_environ(settings)
 
-base = 10
-for i in range(20):
+base = 35 
+for i in range(16):
   num = base + i
   c = Customer(phone_number=num)
   c.save()

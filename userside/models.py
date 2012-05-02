@@ -16,10 +16,10 @@ class Company(models.Model):
 	
 	
 class Customer(models.Model):
-	phone_number = models.IntegerField()
+	phone_number = models.CharField(max_length=20)
 	
 	def __unicode__(self):
-		return str(self.phone_number)
+		return self.phone_number
 
 class CallCenter(models.Model):
 	company = models.ForeignKey(Company)
@@ -52,6 +52,13 @@ class Call(models.Model):
 	
 	def __unicode__(self):
 		return str(self.id)
+		
+class Review(models.Model):
+	call = models.ForeignKey(Call)
+	overall_rating = models.Integer()
+	rep_rating = models.Integer()
+	waiting_rating = models.Integer()
+	comments = description = models.CharField(max_length = 10000, blank=True)
 
 
 	
