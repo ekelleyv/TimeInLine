@@ -6,6 +6,9 @@ from django.shortcuts import render_to_response
 from datetime import datetime
 from django.utils import timezone, simplejson
 from userside.stats import *
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+import re
 
 def test_active_calls(request, company_id):
 	calls = active_calls(company_id)
@@ -19,7 +22,24 @@ def test_position(request, company_id, caller_id):
 	
 def splash(request):
 	t = loader.get_template('bootstrap.html')
-	c = Context()
+	if (request.GET.has_key('caller_id')):
+		caller_id = request.GET.get('caller_id')
+		caller_id = re.sub("\D", "", caller_id)
+		
+		#
+		if (len(caller_id) == 11):
+			caller_id = caller_id[1:11]
+		
+		try:
+			customer = Customer.objects.get(phone_number = caller_id)
+			reverse_location = reverse('dashboard') + "?caller_id=" + caller_id
+			return redirect(reverse_location)
+		except Customer.DoesNotExist:
+			c = Context({'statement': 'That number does not exist. Try again!', 'fade': 'false'})
+	else:
+		c = Context({'statement': 'Where do you stand?', 'fade': 'true'})
+	if (request.GET.has_key("false")):
+		c = Context({'statement': 'That number does not exist. Try again!', 'fade': 'false'})
 	return HttpResponse(t.render(c))
 	
 def callslist(request):
@@ -35,13 +55,22 @@ def testcalls(request):
 	
 def dashboard(request):
 	caller_id = request.GET.get('caller_id')
+	
+	#Fix crash on 1
+	if (caller_id == '1'):
+		reverse_location = reverse('splash')  + "?false"
+		return redirect(reverse_location)
+	
+	
 	xhr = request.GET.has_key('xhr')
 	response_dict = {}
 	try:
 		customer = Customer.objects.get(phone_number = caller_id)
 	#Create new customer
 	except Customer.DoesNotExist:
-		return HttpResponseNotFound('<h1>Page not found</h1>')
+		reverse_location = reverse('splash') + "?caller_id=" + caller_id
+		return redirect(reverse_location)
+	
 	
 	company   = active_company(caller_id)
 	position  = place_in_line(company, caller_id)

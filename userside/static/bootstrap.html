@@ -22,12 +22,13 @@
        <div class="hero-unit" style="margin-top: 100px; width: 600px">
          <div align="center">
            <img id="logo" width="600" src={% static "images/timeinline_transparent.png"%} alt="TimeinLine">
-           <p>Where do you stand?</p>
+           <p>{{statement}}</p>
          </div>
-         <form method="get" action="dashboard/" class="form" onsubmit="return getcoord(this);">
+         <form method="get" action="" class="form" onsubmit="return getcoord(this);">
              <input name="caller_id" type="text" placeholder="Phone Number">
              <input type="submit" class="btn btn-primary" value="Enter" />
          </form>
+         
        </div>
      </center>
      </div>
@@ -39,7 +40,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
             $("body").css("display", "none");
-            $("body").fadeIn(2500);
+            if ({{fade}}) {
+              $("body").fadeIn(2000);
+            }
+            else {
+              $("body").fadeIn(0);
+            }
     });
 </script>
+
+
 </html>
