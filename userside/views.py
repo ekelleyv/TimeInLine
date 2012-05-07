@@ -25,6 +25,8 @@ def splash(request):
 	if (request.GET.has_key('caller_id')):
 		caller_id = request.GET.get('caller_id')
 		caller_id = re.sub("\D", "", caller_id)
+		
+		#
 		if (len(caller_id) == 11):
 			caller_id = caller_id[1:11]
 		
@@ -54,7 +56,7 @@ def testcalls(request):
 def dashboard(request):
 	caller_id = request.GET.get('caller_id')
 	
-	#FOR SOME REASON CRASHES ON 1, THIS IS AN UGLY FIX
+	#Fix crash on 1
 	if (caller_id == '1'):
 		reverse_location = reverse('splash')  + "?false"
 		return redirect(reverse_location)
