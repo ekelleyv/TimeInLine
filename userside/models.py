@@ -1,16 +1,18 @@
 from django.db import models
 from django.utils import timezone
+from userside.models_helper import keyGen
 
 class Company(models.Model):
 	#add this so that in the admin it is 'companies' not 'companys'
 	class Meta:
 		verbose_name_plural = "companies"
 	
-	name = models.CharField(max_length=50)
-	description = models.CharField(max_length=1000, blank=True)
+	key           = models.CharField(max_length=20, primary_key=True, default=keyGen)
+	name          = models.CharField(max_length=50)
+	description   = models.CharField(max_length=1000, blank=True)
 	logo_filepath = models.CharField(max_length = 100, blank=True)
-	website_link = models.CharField(max_length = 100, blank=True)
-	phone_number = models.CharField(max_length=20)
+	website_link  = models.CharField(max_length = 100, blank=True)
+	phone_number  = models.CharField(max_length=20)
 	
 	def __unicode__(self):
 		return self.name
