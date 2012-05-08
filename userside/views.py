@@ -9,6 +9,7 @@ from userside.stats import *
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 import re
+from math import ceil
 
 def test_active_calls(request, company_id):
 	calls = active_calls(company_id)
@@ -56,6 +57,12 @@ def splash(request):
 				
 	else:
 		c = Context({'statement': 'Where do you stand?', 'fade': 'true'})
+
+	if (request.GET.has_key("false")):
+		c = Context({'statement': 'That number does not exist. Try again!', 'fade': 'false'})
+	elif request.GET.has_key("hungup"):
+		c = Context({'statement': 'That number has already been hung up. Thank you for using timeinline', 'fade': 'false'})
+	
 	return HttpResponse(t.render(c))
 
 def company(request):
@@ -108,20 +115,20 @@ def dashboard(request):
 	
 	
 	company   = active_company(caller_id)
+	if company == None:
+		reverse_location = reverse('splash') + "?hungup"
+		return redirect(reverse_location)
 	position  = place_in_line(company, caller_id)
-	avg_waits = avg_wait_naive(company,9,18)
+	pick_up = picked_up(company, caller_id)
+	avg_waits = avg_wait_naive(company,14,23)#9,18
 	avg_serv  = avg_serv_rate(company)
 	reps      = working_reps(company)
-	estimate  = est_wait(avg_serv,reps,position)
-	estimate  = round(estimate, 0)
-	if estimate == 0:
-	  estimate = 1
+	estimate  = ceil(est_wait(avg_serv,reps,position))
 	
 	response_dict.update({'position':position, 'avg_waits':avg_waits, 'est_wait':estimate})
 
 	if xhr:
 		return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
-	
 	return render_to_response('bootstrap-dashboard.html', response_dict);
 
 def callslist(request):
@@ -135,20 +142,32 @@ def testcalls(request):
 	c = Context()
 	return HttpResponse(t.render(c))
 		
+# convert to Eastern (Standard) Time
+def toET(start_hr,end_hr):
+  EST = True
+  if EST:
+	return start_hr-5,end_hr-5
+  else:
+	return start_hr-4,end_hr-4
+
 # return list of avg waits for this d.o.w. from start_hr to < end_hr
 def avg_wait_naive(company,start_hr,end_hr):
+
   avg_wait_day_hour = avg_by_day_hour(company,True,True)
   day = datetime.now().weekday()
-  return avg_wait_day_hour[day][start_hr:end_hr]
+  
+  start,end = toET(start_hr,end_hr)
+  
+  return avg_wait_day_hour[day][start:end]
 
 # return avg service time for this d.o.w. and hour
 def avg_serv_rate(company):
-  avg_serv_day_hour = avg_by_day_hour(company,True,False) 
-  day = datetime.now()
-  return avg_serv_day_hour[day.weekday()][day.hour]
+	avg_serv_day_hour = avg_by_day_hour(company,True,False) 
+	day = datetime.now()
+	return avg_serv_day_hour[day.weekday()][day.hour]
 
 def est_wait(avg_serv,reps,position):
-  return (avg_serv * position) / reps
+	return (avg_serv * position) / reps
 
 
 
@@ -209,7 +228,6 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	#This should not happen
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
-	
 	if(call.callend):
 		return HttpResponse("Call already picked up")
 	if(call.callend):

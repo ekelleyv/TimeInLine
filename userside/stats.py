@@ -4,38 +4,58 @@ from django.http import HttpResponse
 from datetime import datetime, timedelta
 
 #Returns all of the active calls for a given company
-def active_calls(company):
-	calls = Call.objects.filter(company_id = company, callanswered__isnull=True, callend__isnull=True)
+def active_calls(company_id):
+	calls = Call.objects.filter(company_id = company_id, callanswered__isnull=True, callend__isnull=True)
 	return calls
 
-def place_in_line(company, caller_id):
-	response = HttpResponse()
+def picked_up(company_id, caller_id):
 	customer = Customer.objects.get(phone_number = caller_id)
-	calls = active_calls(company)
-	current_call = Call.objects.filter(customer = customer, callanswered__isnull=True).order_by('-callstart')[0]
+	calls = active_calls(company_id)
+	try:
+		picked_up_call = Calls.object.get(customer = customer, callanswered__isnull=False)
+		return True
+	except:
+		return False
+
+def place_in_line(company_id, caller_id):
+	customer = Customer.objects.get(phone_number = caller_id)
+	
+	if Call.objects.filter(customer = customer, company_id = company_id, 
+		  callanswered__isnull=True, callend__isnull=True) == []:
+		return None
+	
+	calls = active_calls(company_id)
+	
+	current_calls = Call.objects.filter(customer = customer, callanswered__isnull=True, callend__isnull=True)
+	if not current_calls:
+		return 0
+	current_call = current_calls.order_by('-callstart')[0]
 	count = 1
 	for call in calls:
-		if (call.callstart < current_call.callstart):
+		if call.callstart < current_call.callstart:
 			count = count + 1
 	return count
 
 def active_company(caller_id):
 	curr_customer = Customer.objects.get(phone_number = caller_id)
-	call = Call.objects.filter(customer = curr_customer, callanswered__isnull=True, callend__isnull=True)[0]
-	return call.company
+	calls = Call.objects.filter(customer = curr_customer, callend__isnull=True)
+	if not calls:
+		return None
+	return calls[0].company_id
 
 # note: need to add attr to Representative: active?
-def working_reps(company):
-	reps = Representative.objects.filter(company_id = company)
+
+def working_reps(company_id):
+	reps = Representative.objects.filter(company_id = company_id)
 	return len(reps)
 
 
 ##########################################################
 
 # returns timedelta/minutes
-def avg_wait(company, retMinutes):
-	sums, counts = sum_wait_by_day_hour(company, retMinutes)
 
+def avg_wait(company_id, retMinutes):
+	sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
 	if sums is None:
 		return None
 	sum = 0 if retMinutes else timedelta(0)
@@ -51,8 +71,8 @@ def avg_wait(company, retMinutes):
 	return avg
 
 # return list (0-23) of timedeltas/minutes
-def avg_wait_by_hour(company, retMinutes):
-	sums, counts = sum_wait_by_day_hour(company, retMinutes)
+def avg_wait_by_hour(company_id, retMinutes):
+	sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
 	if sums is None:
 		return None
 	avg_hour = [0]*24 if retMinutes else [timedelta(0)]*24
@@ -69,8 +89,8 @@ def avg_wait_by_hour(company, retMinutes):
 	return avg_hour
 
 # return list (0-6) of timedeltas/minutes
-def avg_wait_by_day(company, retMinutes):
-	sums, counts = sum_wait_by_day_hour(company, retMinutes)
+def avg_wait_by_day(company_id, retMinutes):
+	sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
 	if sums is None:
 		return None
 	avg_day = [0]*7 if retMinutes else [timedelta(0)]*7
@@ -86,11 +106,11 @@ def avg_wait_by_day(company, retMinutes):
 			avg_day[i] = sum / count 
 	return avg_day
 
-def avg_by_day_hour_range(company, retMinutes, retWait, hour_range, day_range):
+def avg_by_day_hour_range(company_id, retMinutes, retWait, hour_range, day_range):
 	if retWait:
-		sums, counts = sum_wait_by_day_hour(company, retMinutes, hour_range, day_range)
+		sums, counts = sum_wait_by_day_hour(company_id, retMinutes, hour_range, day_range)
 	else:
-		sums, counts = sum_serv_by_day_hour(company, retMinutes, hour_range, day_range)
+		sums, counts = sum_serv_by_day_hour(company_id, retMinutes, hour_range, day_range)
 	if sums is None:
 		return None
 	avg_day_hour = []
@@ -109,18 +129,19 @@ def avg_by_day_hour_range(company, retMinutes, retWait, hour_range, day_range):
 	return avg_day_hour
 
 # return 7 lists of 24 timedeltas/minutes
-def avg_by_day_hour(company, retMinutes, retWait):
+def avg_by_day_hour(company_id, retMinutes, retWait):
 	hour_range = range(24)
 	day_range = range(7)
-	return avg_by_day_hour_range(company, retMinutes, retWait, hour_range, day_range)
+	return avg_by_day_hour_range(company_id, retMinutes, retWait, hour_range, day_range)
 
 
 ##########################################################
 
 # returns tuple: (7 lists of 24 timedeltas/minutes, 7 lists of 24 counts)
 # excludes active calls and currently waiting
-def sum_wait_by_day_hour(company, retMinutes, hour_range, day_range):
-	calls = Call.objects.filter(company_id=company, callstart__isnull=False, callend__isnull=False)
+<<<<<<< HEAD
+def sum_wait_by_day_hour(company_id, retMinutes, hour_range, day_range):
+	calls = Call.objects.filter(company_id=company_id, callstart__isnull=False, callend__isnull=False)
 	if len(calls) == 0:
 		return None, None
 
@@ -137,7 +158,6 @@ def sum_wait_by_day_hour(company, retMinutes, hour_range, day_range):
 			sum_day_hour_td[call.callstart.weekday()][call.callstart.hour] += call.callend - call.callstart
 		else:
 			sum_day_hour_td[call.callstart.weekday()][call.callstart.hour] += call.callanswered - call.callstart
-
 	if not retMinutes:
 		return sum_day_hour_td, count_day_hour
 
@@ -152,8 +172,8 @@ def sum_wait_by_day_hour(company, retMinutes, hour_range, day_range):
 
 # returns tuple: (7 lists of 24 timedeltas/minutes, 7 lists of 24 counts)
 # excludes active calls and currently waiting
-def sum_serv_by_day_hour(company, retMinutes, hour_range, day_range):
-	calls = Call.objects.filter(company_id=company, callstart__isnull=False, callend__isnull=False)
+def sum_serv_by_day_hour(company_id, retMinutes, hour_range, day_range):
+	calls = Call.objects.filter(company_id=company_id, callstart__isnull=False, callend__isnull=False)
 	if len(calls) == 0:
 		return None, None
 

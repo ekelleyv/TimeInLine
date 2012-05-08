@@ -8,7 +8,7 @@ setup_environ(settings)
 
 base = 35 
 for i in range(16):
-  num = base + i
-  c = Customer(phone_number=num)
-  c.save()
+	num = base + i
+	c = Customer(phone_number=num)
+	c.save()
 
