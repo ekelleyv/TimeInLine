@@ -139,7 +139,7 @@ def avg_by_day_hour(company_id, retMinutes, retWait):
 
 # returns tuple: (7 lists of 24 timedeltas/minutes, 7 lists of 24 counts)
 # excludes active calls and currently waiting
-<<<<<<< HEAD
+
 def sum_wait_by_day_hour(company_id, retMinutes, hour_range, day_range):
 	calls = Call.objects.filter(company_id=company_id, callstart__isnull=False, callend__isnull=False)
 	if len(calls) == 0:

@@ -85,6 +85,8 @@ def review(request):
 		return redirect(reverse_location)
 		
 	company_id = active_company(caller_id)
+	if company_id == None:
+		return HttpResponse("This caller id is not associated with a company")
 	comp = Company.objects.get(id = company_id).name
 	response_dict.update({'company':comp, 'caller_id':caller_id, 'review_submitted': review_submitted})
 	return render_to_response('ratings.html', response_dict);
