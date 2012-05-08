@@ -11,7 +11,8 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'userside.views.splash', name='splash'),
 	url(r'^dashboard/$', 'userside.views.dashboard', name='dashboard'),
-    
+	url(r'^company/$', 'userside.views.company', name='company'),
+	
     #Display Calls:
     url(r'^callslist$', 'userside.views.callslist', name='callslist'),
     
@@ -43,4 +44,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+	#url(r'^', 'userside.views.splash', name='splash'),
 )
