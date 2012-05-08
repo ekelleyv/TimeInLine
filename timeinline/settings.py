@@ -6,11 +6,7 @@ import json #for dot cloud
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 #with open('/home/dotcloud/environment.json') as f:
-<<<<<<< HEAD
  #         env = json.load(f)
-=======
-#	  env = json.load(f)
->>>>>>> 2db6b7a7937b0c643d68ce551045c302e5d670b1
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

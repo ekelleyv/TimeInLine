@@ -67,7 +67,6 @@ def dashboard(request):
 	response_dict = {}
 	try:
 		customer = Customer.objects.get(phone_number = caller_id)
-	#Create new customer
 	except Customer.DoesNotExist:
 		reverse_location = reverse('splash') + "?caller_id=" + caller_id
 		return redirect(reverse_location)
@@ -75,11 +74,11 @@ def dashboard(request):
 	
 	company   = active_company(caller_id)
 	position  = place_in_line(company, caller_id)
-	avg_waits = avg_wait_naive(company,14,23)#9,18
+	avg_waits = avg_wait_naive(company,14,23)#9,18(6pm)
 	avg_serv  = avg_serv_rate(company)
 	reps      = working_reps(company)
 	estimate  = ceil(est_wait(avg_serv,reps,position))
-	
+        	
 	response_dict.update({'position':position, 'avg_waits':avg_waits, 'est_wait':estimate})
 
 	if xhr:
