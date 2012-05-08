@@ -2,11 +2,16 @@
 
 import os
 import django
+import json #for dot cloud
 # calculated paths for django and the site
 # used as starting points for various other paths
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+with open('/home/dotcloud/environment.json') as f:
+          env = json.load(f)
 
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -19,12 +24,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(SITE_ROOT, 'deployment.db'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'dotCloudDeployment.db',   # Or path to database file if using sqlite3.
+        'USER': env['DOTCLOUD_DB_SQL_LOGIN'], # Not used with sqlite3.
+        'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],                  # Not used with sqlite3.
+        'HOST': env['DOTCLOUD_DB_SQL_HOST'], # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': int(env['DOTCLOUD_DB_SQL_PORT']),                       # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -35,7 +40,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -78,7 +83,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(SITE_ROOT, '../userside/static'),
+        os.path.join(SITE_ROOT, '../userside/static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -118,7 +123,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(SITE_ROOT, '../userside/static'),
+        os.path.join(SITE_ROOT, '../userside/static'),
 )
 
 INSTALLED_APPS = (
@@ -132,35 +137,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-	'django_evolution',
-	'userside',
+        'django_evolution',
+        'userside',
 )
-
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
