@@ -6,7 +6,8 @@ import json #for dot cloud
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 #with open('/home/dotcloud/environment.json') as f:
-#	  env = json.load(f)
+#         env = json.load(f)
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -18,14 +19,14 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-  'default': {
-      'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-      'NAME': 'dotCloudDeployment',   # Or path to database file if using sqlite3.
-      'USER': 'timeinline', # Not used with sqlite3.
-      'PASSWORD': 'princeton',                  # Not used with sqlite3.
-      'HOST': 'test-timeinline.dotcloud.com', # Set to empty string for localhost. Not used with sqlite3.
-      'PORT': 27469,                       # Set to empty string for default. Not used with sqlite3.
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'dotCloudDeployment',   # Or path to database file if using sqlite3.
+        'USER': 'timeinline', # Not used with sqlite3.
+        'PASSWORD': 'princeton',                  # Not used with sqlite3.
+        'HOST': 'test-timeinline.dotcloud.com', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': 27469,                       # Set to empty string for default. Not used with sqlite3.
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -78,7 +79,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(SITE_ROOT, '../userside/static'),
+    os.path.join(SITE_ROOT, '../userside/static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -118,7 +119,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(SITE_ROOT, '../userside/static'),
+    os.path.join(SITE_ROOT, '../userside/static'),
 )
 
 INSTALLED_APPS = (
@@ -132,6 +133,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-	'django_evolution',
-	'userside',
+        'django_evolution',
+        'userside',
 )
