@@ -29,7 +29,7 @@ def splash(request):
 		
 		#
 		if (len(caller_id) == 11):
-			caller_id = caller_id[1:11]
+				caller_id = caller_id[1:11]
 		
 		try:
 			customer = Customer.objects.get(phone_number = caller_id)
@@ -95,9 +95,9 @@ def dashboard(request):
 def toET(start_hr,end_hr):
   EST = True
   if EST:
-    return start_hr-5,end_hr-5
+	return start_hr-5,end_hr-5
   else:
-    return start_hr-4,end_hr-4
+	return start_hr-4,end_hr-4
 
 # return list of avg waits for this d.o.w. from start_hr to < end_hr
 def avg_wait_naive(company,start_hr,end_hr):
@@ -177,7 +177,6 @@ def pickup_api(request, company_id, rep_id, caller_id):
 	#This should not happen
 	except Call.DoesNotExist:
 		return HttpResponse("Call " + caller_id + " does not exist.")
-	
 	if(call.callend):
 		return HttpResponse("Call already picked up")
 	if(call.callend):
