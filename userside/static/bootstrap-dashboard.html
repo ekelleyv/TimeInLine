@@ -9,7 +9,7 @@
 	background-size: cover;">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>TimeinLine</title>
+	<title>Dash : TimeinLine</title>
 	<link rel="stylesheet" href={% static "bootstrap/css/bootstrap.css"%} type="text/css" media="screen" title="no title" charset="utf-8">
 	<link href={% static "css/dashboard-newstyle.css"%} rel="stylesheet">
   
@@ -168,13 +168,18 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$.ajaxSetup({ cache: false }); // This part addresses an IE bug.  without it, IE will only load the first number and will never refresh
-		setInterval(function() {
+		setInterval(function() {		
 			var load_url = document.URL + '&xhr'
-				$.getJSON(load_url,function(data) {
-					$("#position").text(data.position);
-					$("#est_wait").text(data.est_wait);
-				});
-		}, 3000); // the "3000" here refers to the time to refresh the div.  it is in milliseconds. 
+			$.getJSON(load_url,function(data) {
+				if (data.position == "0") {
+					window.location.href = "{{ROOT_URL}}/review/?caller_id={{caller_id}}";
+				}
+				$("#position").text(data.position);
+				$("#est_wait").text(data.est_wait);
+			});
+			
+		}, 3000); // the "3000" here refers to the time to refresh the div.  it is in milliseconds.
+		
 	});
 </script>
 

@@ -65,6 +65,34 @@ def splash(request):
 
 	if request.GET.has_key("hungup"):
 		c = Context({'statement': 'That number has already been hung up. Thank you for using timeinline', 'fade': 'false'})
+
+	return HttpResponse(t.render(c))
+
+def review(request):
+	caller_id = request.GET.get('caller_id')
+	review_submitted = False
+	if request.GET.get('feedback') or request.GET.get('rate'):
+		process_review(request)
+		review_submitted = True
+	#Fix crash on 1
+	if (caller_id == '1'):
+		reverse_location = reverse('splash')  + "?false"
+		return redirect(reverse_location)
+	
+	response_dict = {}
+	try:
+		customer = Customer.objects.get(phone_number = caller_id)
+	#Create new customer
+	except Customer.DoesNotExist:
+		reverse_location = reverse('splash') + "?caller_id=" + str(caller_id)
+		return redirect(reverse_location)
+		
+	company_id = active_company(caller_id)
+	if company_id == None:
+		return HttpResponse("This caller id is not associated with a company")
+	comp = Company.objects.get(id = company_id).name
+	response_dict.update({'company':comp, 'caller_id':caller_id, 'review_submitted': review_submitted})
+	return render_to_response('ratings.html', response_dict);
 	
 	return HttpResponse(t.render(c))
 
@@ -125,8 +153,8 @@ def dashboard(request):
 	avg_serv  = avg_serv_rate(company)
 	reps      = working_reps(company)
 	estimate  = int(ceil(est_wait(avg_serv,reps,position)))
-        	
-	response_dict.update({'position':position, 'avg_waits':avg_waits, 'est_wait':estimate})
+	
+	response_dict.update({'position':position, 'avg_waits':avg_waits, 'est_wait':estimate, 'caller_id':caller_id})
 
 	if xhr:
 		return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
@@ -154,12 +182,12 @@ def toET(start_hr,end_hr):
 # return list of avg waits for this d.o.w. from start_hr to < end_hr
 def avg_wait_naive(company,start_hr,end_hr):
 
-  avg_wait_day_hour = avg_by_day_hour(company,True,True)
-  day = datetime.now().weekday()
-  
-  start,end = toET(start_hr,end_hr)
-  
-  return avg_wait_day_hour[day][start:end]
+	avg_wait_day_hour = avg_by_day_hour(company,True,True)
+	day = datetime.now().weekday()
+	
+	start,end = toET(start_hr,end_hr)
+	
+	return avg_wait_day_hour[day][start:end]
 
 # return avg service time for this d.o.w. and hour
 def avg_serv_rate(company):
@@ -170,10 +198,28 @@ def avg_serv_rate(company):
 def est_wait(avg_serv,reps,position):
 	return (avg_serv * position) / reps
 
-
+def process_review(request):
+	caller_id = request.GET.get('caller_id')
+	customer = Customer.objects.get(phone_number = caller_id)
+	call_id = Call.objects.filter(customer_id = customer).order_by('-callstart')[0].id
+	comments = request.GET.get('feedback')
+	overall_rating = request.GET.get('rate')
+	rep_rating = -1
+	waiting_rating = -1
+	r = Review.objects.filter(call_id = call_id)
+	#if r:
+	#	r.delete()
+	#	r = Review(call_id = call_id, overall_rating = overall_rating, rep_rating = rep_rating,
+#				waiting_rating = waiting_rating, comments = comments)
+#	r.save()
+	if r:
+		return HttpResponse("A review has already been submitted")
+	else:
+		r = Review(call_id = call_id, overall_rating = overall_rating, rep_rating = rep_rating,
+				   waiting_rating = waiting_rating, comments = comments)
+		return HttpResponse("Thank you for your submission")
 
 def call_api(request, company_id, caller_id):
-	
 	
 	#Check if customer exists
 	try:
