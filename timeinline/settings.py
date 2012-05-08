@@ -6,10 +6,9 @@ import json #for dot cloud
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 #with open('/home/dotcloud/environment.json') as f:
- #         env = json.load(f)
+#         env = json.load(f)
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -81,7 +80,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(SITE_ROOT, '../userside/static'),
+    os.path.join(SITE_ROOT, '../userside/static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -121,7 +120,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	os.path.join(SITE_ROOT, '../userside/static'),
+    os.path.join(SITE_ROOT, '../userside/static'),
 )
 
 INSTALLED_APPS = (
