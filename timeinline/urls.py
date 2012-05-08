@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 	# Examples:
 	url(r'^$', 'userside.views.splash', name='splash'),
 	url(r'^dashboard/$', 'userside.views.dashboard', name='dashboard'),
+    url(r'^company/$', 'userside.views.company', name='company'),
 	url(r'^review/$', 'userside.views.review', name='review'),
 	
 	#Display Calls:
