@@ -25,32 +25,34 @@ class Customer(models.Model):
 		return self.phone_number
 
 class CallCenter(models.Model):
-	company = models.ForeignKey(Company)
-	name = models.CharField(max_length = 100)
-	location = models.CharField(max_length = 100, blank=True)
+	company     = models.ForeignKey(Company)
+	name        = models.CharField(max_length = 100)
+	location    = models.CharField(max_length = 100, blank=True)
 	description = models.CharField(max_length = 1000, blank=True)
 	
 	def __unicode__(self):
 		return self.name
 
 class Representative(models.Model):
-	company = models.ForeignKey(Company)
-	active = models.BooleanField()
-	callcenter = models.ForeignKey(CallCenter, blank=True)
-	first_name = models.CharField(max_length = 20, blank=True)
-	last_name = models.CharField(max_length = 20, blank=True)
+	company     = models.ForeignKey(Company)
+	active      = models.BooleanField()
+	callcenter  = models.ForeignKey(CallCenter, blank=True)
+	first_name  = models.CharField(max_length = 20, blank=True)
+	last_name   = models.CharField(max_length = 20, blank=True)
 	internal_id = models.CharField(max_length = 100)
 	
 	def __unicode__(self):
 		return self.internal_id
 
 class Call(models.Model):
-	customer = models.ForeignKey(Customer)
-	company = models.ForeignKey(Company)
-	rep = models.ForeignKey(Representative, null=True)
-	callstart = models.DateTimeField(null=True)
+	
+	#key          = models.CharField(max_length=20, primary_key=True, default=keyGen)
+	customer     = models.ForeignKey(Customer)
+	company      = models.ForeignKey(Company)
+	rep          = models.ForeignKey(Representative, null=True)
+	callstart    = models.DateTimeField(null=True)
 	callanswered = models.DateTimeField(null=True)
-	callend = models.DateTimeField(null=True)
+	callend      = models.DateTimeField(null=True)
 	
 	#Probably want a function like is_active() or something
 	
@@ -58,11 +60,11 @@ class Call(models.Model):
 		return str(self.id)
 		
 class Review(models.Model):
-	call = models.ForeignKey(Call)
+	call           = models.ForeignKey(Call)
 	overall_rating = models.IntegerField()
-	rep_rating = models.IntegerField()
+	rep_rating     = models.IntegerField()
 	waiting_rating = models.IntegerField()
-	comments = models.CharField(max_length = 10000, blank=True)
+	comments       = models.CharField(max_length = 10000, blank=True)
 
 
 	

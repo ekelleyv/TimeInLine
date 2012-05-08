@@ -8,16 +8,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    url(r'^$', 'userside.views.splash', name='splash'),
+	# Examples:
+	url(r'^$', 'userside.views.splash', name='splash'),
 	url(r'^dashboard/$', 'userside.views.dashboard', name='dashboard'),
 	url(r'^company/$', 'userside.views.company', name='company'),
 	
-    #Display Calls:
-    url(r'^callslist$', 'userside.views.callslist', name='callslist'),
-    
-    #Test Calls:
-    url(r'^test$', 'userside.views.testcalls', name='testcalls'),
+	#Display Calls:
+	url(r'^callslist$', 'userside.views.callslist', name='callslist'),
+	
+	#Test Calls:
+	url(r'^test$', 'userside.views.testcalls', name='testcalls'),
 	
 	#API CALLS
 	#url.com/api/call/company_id/caller_id
@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 	#url.com/api/hangup/company_id/caller_id
 	url(r'^api/hangup/(?P<company_id>\d+)/(?P<caller_id>\d+)/$', 'userside.views.hangup_api'),
 	
-    # url(r'^timeinline/', include('timeinline.foo.urls')),
+	# url(r'^timeinline/', include('timeinline.foo.urls')),
 	
 	#TEST URLS
 	#url.com/api/hangup/company_id/caller_id
@@ -39,12 +39,12 @@ urlpatterns = patterns('',
 	#View position in line
 	url(r'^test/position/(?P<company_id>\d+)/(?P<caller_id>\d+)$', 'userside.views.test_position'),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	# Uncomment the admin/doc line below to enable admin documentation:
+	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+	# Uncomment the next line to enable the admin:
+	url(r'^admin/', include(admin.site.urls)),
 
-    # catch everything else
-    url(r'^', 'userside.views.splash', name='splash'),
+	# catch everything else
+	#url(r'^', 'userside.views.misc', name='misc'),
 )

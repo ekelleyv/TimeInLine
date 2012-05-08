@@ -20,7 +20,12 @@ def test_active_calls(request, company_id):
 
 def test_position(request, company_id, caller_id):
 	return place_in_line(company_id, caller_id)
-	
+
+def misc(request):
+	t = loader.get_template('bootstrap.html')
+	c = Context({'statement': 'Where do you friend?', 'fade': 'true'})
+	return HttpResponse(t.render(c))
+
 def splash(request):
 	t = loader.get_template('bootstrap.html')
 	
@@ -58,9 +63,7 @@ def splash(request):
 	else:
 		c = Context({'statement': 'Where do you stand?', 'fade': 'true'})
 
-	if (request.GET.has_key("false")):
-		c = Context({'statement': 'That number does not exist. Try again!', 'fade': 'false'})
-	elif request.GET.has_key("hungup"):
+	if request.GET.has_key("hungup"):
 		c = Context({'statement': 'That number has already been hung up. Thank you for using timeinline', 'fade': 'false'})
 	
 	return HttpResponse(t.render(c))
