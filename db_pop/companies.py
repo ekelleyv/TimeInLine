@@ -7,8 +7,8 @@ from userside.models import *
 setup_environ(settings)
 
 for i in range(5):
-  rname = "company"+str(i)
-  c = Company(name=rname)
-  c.save()
+	rname = "company"+str(i)
+	c = Company(name=rname)
+	c.save()
 
 
