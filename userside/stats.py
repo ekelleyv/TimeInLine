@@ -44,6 +44,7 @@ def active_company(caller_id):
 	return calls[0].company_id
 
 # note: need to add attr to Representative: active?
+
 def working_reps(company_id):
 	reps = Representative.objects.filter(company_id = company_id)
 	return len(reps)
@@ -52,6 +53,7 @@ def working_reps(company_id):
 ##########################################################
 
 # returns timedelta/minutes
+
 def avg_wait(company_id, retMinutes):
 	sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
 	if sums is None:
@@ -65,131 +67,136 @@ def avg_wait(company_id, retMinutes):
 	if count == 0:
 		avg = 0 if retMinutes else timedelta(0)
 	else: 
-		 avg = sum / count
+		avg = sum / count
 	return avg
 
 # return list (0-23) of timedeltas/minutes
 def avg_wait_by_hour(company_id, retMinutes):
-		sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
-		if sums is None:
-				return None
-		avg_hour = [0]*24 if retMinutes else [timedelta(0)]*24
-		for j in range(24):
-				sum = 0 if retMinutes else timedelta(0)
-				count = 0
-				for i in range(7):
-						sum += sums[i][j]
-						count += counts[i][j]
-				if count == 0:
-						avg_hour[j] = 0 if retMinutes else timedelta(0)
-				else:
-						avg_hour[j] = sum / count
-		return avg_hour
+	sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
+	if sums is None:
+		return None
+	avg_hour = [0]*24 if retMinutes else [timedelta(0)]*24
+	for j in range(24):
+		sum = 0 if retMinutes else timedelta(0)
+		count = 0
+		for i in range(7):
+			sum += sums[i][j]
+			count += counts[i][j]
+		if count == 0:
+			avg_hour[j] = 0 if retMinutes else timedelta(0)
+		else:
+			avg_hour[j] = sum / count
+	return avg_hour
 
 # return list (0-6) of timedeltas/minutes
 def avg_wait_by_day(company_id, retMinutes):
-		sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
-		if sums is None:
-				return None
-		avg_day = [0]*7 if retMinutes else [timedelta(0)]*7
-		for i in range(7):
-				sum = 0 if retMinutes else timedelta(0)
-				count = 0
-				for j in range(24):
-						sum += sums[i][j]
-						count += counts[i][j]
-				if count == 0:
-						avg_day[i] = 0 if retMinutes else timedelta(0)
-				else: 
-						avg_day[i] = sum / count 
-		return avg_day
+	sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
+	if sums is None:
+		return None
+	avg_day = [0]*7 if retMinutes else [timedelta(0)]*7
+	for i in range(7):
+		sum = 0 if retMinutes else timedelta(0)
+		count = 0
+		for j in range(24):
+			sum += sums[i][j]
+			count += counts[i][j]
+		if count == 0:
+			avg_day[i] = 0 if retMinutes else timedelta(0)
+		else: 
+			avg_day[i] = sum / count 
+	return avg_day
 
-# return 7 lists of 24 timedeltas/minutes
-def avg_by_day_hour(company_id, retMinutes, retWait):
+def avg_by_day_hour_range(company_id, retMinutes, retWait, hour_range, day_range):
 	if retWait:
-		sums, counts = sum_wait_by_day_hour(company_id, retMinutes)
+		sums, counts = sum_wait_by_day_hour(company_id, retMinutes, hour_range, day_range)
 	else:
-		sums, counts = sum_serv_by_day_hour(company_id, retMinutes)
-	
+		sums, counts = sum_serv_by_day_hour(company_id, retMinutes, hour_range, day_range)
 	if sums is None:
 		return None
 	avg_day_hour = []
 	if retMinutes:
-		for i in range(7):
-			avg_day_hour.append([0]*24)
+		for i in day_range:
+			avg_day_hour.append([0]*len(hour_range))
 	else:
-		for i in range(7):
-			avg_day_hour.append([timedelta(0)]*24)
-	for i in range(7):
-		for j in range(24):
+		for i in day_range:
+			avg_day_hour.append([timedelta(0)]*len(hour_range))
+	for i in day_range:
+		for j in hour_range:
 			if counts[i][j] == 0:
 				avg_day_hour[i][j] = 0 if retMinutes else timedelta(0)
 			else:
 				avg_day_hour[i][j] = sums[i][j] / counts[i][j]
 	return avg_day_hour
 
+# return 7 lists of 24 timedeltas/minutes
+def avg_by_day_hour(company_id, retMinutes, retWait):
+	hour_range = range(24)
+	day_range = range(7)
+	return avg_by_day_hour_range(company_id, retMinutes, retWait, hour_range, day_range)
+
+
 ##########################################################
 
 # returns tuple: (7 lists of 24 timedeltas/minutes, 7 lists of 24 counts)
 # excludes active calls and currently waiting
-def sum_wait_by_day_hour(company_id, retMinutes):
+<<<<<<< HEAD
+def sum_wait_by_day_hour(company_id, retMinutes, hour_range, day_range):
 	calls = Call.objects.filter(company_id=company_id, callstart__isnull=False, callend__isnull=False)
 	if len(calls) == 0:
 		return None, None
-	
-	sum_day_hour_td  = []
-	for i in range(7):
-		sum_day_hour_td.append([timedelta(0)]*24)
+
+	sum_day_hour_td	 = []
+	for i in day_range:
+		sum_day_hour_td.append([timedelta(0)]*len(hour_range))
 	count_day_hour = []
-	for i in range(7):
-		count_day_hour.append([0]*24)
-	
+	for i in day_range:
+		count_day_hour.append([0]*len(hour_range))
+
 	for call in calls:
 		count_day_hour[call.callstart.weekday()][call.callstart.hour] += 1
 		if call.callanswered == None:
 			sum_day_hour_td[call.callstart.weekday()][call.callstart.hour] += call.callend - call.callstart
 		else:
 			sum_day_hour_td[call.callstart.weekday()][call.callstart.hour] += call.callanswered - call.callstart
-	
 	if not retMinutes:
 		return sum_day_hour_td, count_day_hour
-	
+
 	sum_day_hour_m = []
-	for i in range(7):
-		sum_day_hour_m.append([0]*24)
-	for i in range(7):
-		for j in range(24):
+	for i in day_range:
+		sum_day_hour_m.append([0]*len(hour_range))
+	for i in day_range:
+		for j in hour_range:
 			sum_day_hour_m[i][j] = sum_day_hour_td[i][j].seconds / float(60) 
 	return sum_day_hour_m, count_day_hour
 
 
 # returns tuple: (7 lists of 24 timedeltas/minutes, 7 lists of 24 counts)
 # excludes active calls and currently waiting
-def sum_serv_by_day_hour(company_id, retMinutes):
-		calls = Call.objects.filter(company_id=company_id, callstart__isnull=False, callend__isnull=False)
-		if len(calls) == 0:
-				return None, None
-		
-		sum_day_hour_td = []
-		for i in range(7):
-				sum_day_hour_td.append([timedelta(0)]*24)
-		count_day_hour = []
-		for i in range(7):
-				count_day_hour.append([0]*24)
-		
-		for call in calls:
-				count_day_hour[call.callstart.weekday()][call.callstart.hour] += 1
-				if call.callanswered != None:
-						sum_day_hour_td[call.callstart.weekday()][call.callstart.hour] += call.callend - call.callanswered
-		
-		if not retMinutes:
-				return sum_day_hour_td, count_day_hour
-		
-		sum_day_hour_m = []
-		for i in range(7):
-				sum_day_hour_m.append([0]*24)
-		for i in range(7):
-				for j in range(24):
-						sum_day_hour_m[i][j] = sum_day_hour_td[i][j].seconds / float(60)
-		return sum_day_hour_m, count_day_hour
+def sum_serv_by_day_hour(company_id, retMinutes, hour_range, day_range):
+	calls = Call.objects.filter(company_id=company_id, callstart__isnull=False, callend__isnull=False)
+	if len(calls) == 0:
+		return None, None
+
+	sum_day_hour_td = []
+	for i in day_range:
+		sum_day_hour_td.append([timedelta(0)]*len(hour_range))
+	count_day_hour = []
+	for i in day_range:
+		count_day_hour.append([0]*len(hour_range))
+
+	for call in calls:
+		count_day_hour[call.callstart.weekday()][call.callstart.hour] += 1
+		if call.callanswered != None:
+			sum_day_hour_td[call.callstart.weekday()][call.callstart.hour] += call.callend - call.callanswered
+	
+	if not retMinutes:
+		return sum_day_hour_td, count_day_hour
+
+	sum_day_hour_m = []
+	for i in day_range:
+		sum_day_hour_m.append([0]*len(hour_range))
+	for i in day_range:
+		for j in hour_range:
+			sum_day_hour_m[i][j] = sum_day_hour_td[i][j].seconds / float(60)
+	return sum_day_hour_m, count_day_hour
 

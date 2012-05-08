@@ -10,6 +10,10 @@ html {
 	background-size: cover;
 }
 
+img {
+	padding:20px;
+}
+
 
 .hero-unit {
 	padding: 10px;
@@ -35,6 +39,15 @@ html {
 	
 	
 }
+#left{
+	padding-top: 10px;
+	padding-left: 40px;
+	
+}
+
+.row {
+	padding-top:30px;
+}
 
 .number {
 	padding-top: 60px;
@@ -48,4 +61,12 @@ html {
 
 .min {
 	font-size: 30px;
+}
+
+.desc {
+	font-size: 20px;
+	vertical-align:text-bottom;
+}
+.group {
+	padding-top:100px;
 }

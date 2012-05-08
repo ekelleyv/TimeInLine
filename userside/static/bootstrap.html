@@ -24,8 +24,8 @@
            <img id="logo" width="600" src={% static "images/timeinline_transparent.png"%} alt="TimeinLine">
            <p>{{statement}}</p>
          </div>
-         <form method="get" action="" class="form">
-             <input name="caller_id" type="text" placeholder="Phone Number">
+         <form method="get" action="" class="form" onsubmit="return getcoord(this);">
+             <input name="input" type="text" placeholder="Phone Number or Company Name">
              <input type="submit" class="btn btn-primary" value="Enter" />
          </form>
          
