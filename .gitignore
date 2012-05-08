@@ -1,4 +1,6 @@
 #Ignore the created .pyc documents
 *.pyc
+*/*.pyc
 timeinline/deployment.db
 *~
+*/*/*.pyc

@@ -6,9 +6,9 @@ from userside.models import *
 
 setup_environ(settings)
 
-base = 1111110000
-for i in range(200):
-  num = base + i
-  c = Customer(phone_number=num)
-  c.save()
+base = 35 
+for i in range(16):
+	num = base + i
+	c = Customer(phone_number=num)
+	c.save()
 

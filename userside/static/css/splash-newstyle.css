@@ -1,0 +1,30 @@
+body {
+	background: transparent;
+}
+
+html {
+	background: url("{% static "images/bkg2.jpg"%}") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+input.button {
+	color: #F1F1F1;
+	font: bold 12px Helvetica, Arial, sans-serif;
+	text-decoration: none;
+	padding: 7px 12px;
+	position: relative;
+	display: inline-block;
+	-webkit-transition: border-color .218s;
+	-moz-transition: border .218s;
+	-o-transition: border-color .218s;
+	transition: border-color .218s;
+	background: #41ACFD;
+	border: solid 1px #dcdcdc;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin-right: 10px;
+}
