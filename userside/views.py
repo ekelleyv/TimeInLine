@@ -93,11 +93,11 @@ def dashboard(request):
 
 # convert to Eastern (Standard) Time
 def toET(start_hr,end_hr):
-  EST = True
-  if EST:
-	return start_hr-5,end_hr-5
-  else:
-	return start_hr-4,end_hr-4
+	EST = True
+	if EST:
+		return start_hr-5,end_hr-5
+	else:
+		return start_hr-4,end_hr-4
 
 # return list of avg waits for this d.o.w. from start_hr to < end_hr
 def avg_wait_naive(company,start_hr,end_hr):

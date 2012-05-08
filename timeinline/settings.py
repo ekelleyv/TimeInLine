@@ -22,12 +22,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
   'default': {
-      'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-      'NAME': os.path.join(SITE_ROOT,'local.db'),#'dotCloudDeployment',   # Or path to database file if using sqlite3.
-      'USER': '',#'timeinline', # Not used with sqlite3.
-      'PASSWORD': '',#'princeton',                  # Not used with sqlite3.
-      'HOST': '',#'test-timeinline.dotcloud.com', # Set to empty string for localhost. Not used with sqlite3.
-      'PORT': '',#27469,                       # Set to empty string for default. Not used with sqlite3.
+      'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+      'NAME': 'dotCloudDeployment',   # Or path to database file if using sqlite3.
+      'USER': 'timeinline', # Not used with sqlite3.
+      'PASSWORD': 'princeton',                  # Not used with sqlite3.
+      'HOST': 'test-timeinline.dotcloud.com', # Set to empty string for localhost. Not used with sqlite3.
+      'PORT': 27469,                       # Set to empty string for default. Not used with sqlite3.
    }
 }
 

@@ -7,7 +7,7 @@ class Company(models.Model):
 	class Meta:
 		verbose_name_plural = "companies"
 	
-	key           = models.CharField(max_length=20, primary_key=True, default=keyGen)
+	#key           = models.CharField(max_length=20, primary_key=True, default=keyGen)
 	name          = models.CharField(max_length=50)
 	description   = models.CharField(max_length=1000, blank=True)
 	logo_filepath = models.CharField(max_length = 100, blank=True)
