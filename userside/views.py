@@ -85,16 +85,15 @@ def company(request):
 	avg_serv = avg_serv_rate(company)
 	avg_waits = avg_by_day_hour_range(company, True, True, hour_range, day_range)
 	reps = working_reps(company)
-	estimate = round(est_wait(avg_serv, reps, line_length), 0)
-	if estimate == 0:
-		estimate = 1
-	avg_waits = []
+	estimate = int(ceil(est_wait(avg_serv, reps, line_length)))
+
+	new_avg_waits = []
 	# for i in day_range:
 	# 	avg_waits.append([1]*len(hour_range))
 	for i in range(len(avg_waits)):
-		avg_waits[i] = avg_waits[i][9:18]
+		new_avg_waits.append(avg_waits[i][9:18])
 	
-	return render_to_response('bootstrap-company.html', {'line_length':line_length, 'estimate':estimate, 'avg_waits': avg_waits, 'phone_number':company.phone_number, 'website':company.website_link, 'desc':company.description})
+	return render_to_response('bootstrap-company.html', {'line_length':line_length, 'estimate':estimate, 'avg_waits': new_avg_waits, 'phone_number':company.phone_number, 'website':company.website_link, 'desc':company.description})
 	
 def dashboard(request):
 	caller_id = request.GET.get('input')
@@ -122,7 +121,7 @@ def dashboard(request):
 	avg_waits = avg_wait_naive(company,14,23)#9,18(6pm)
 	avg_serv  = avg_serv_rate(company)
 	reps      = working_reps(company)
-	estimate  = ceil(est_wait(avg_serv,reps,position))
+	estimate  = int(ceil(est_wait(avg_serv,reps,position)))
         	
 	response_dict.update({'position':position, 'avg_waits':avg_waits, 'est_wait':estimate})
 

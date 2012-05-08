@@ -78,7 +78,7 @@ def main():
 	calls = []
 	# start calls
 	for i in range(0,n_custs):
-		t = datetime.today()
+		t = timezone.now()
 		m = t.minute-n_custs+i
 		h = t.hour
 		if m < 0:
