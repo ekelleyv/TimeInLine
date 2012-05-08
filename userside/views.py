@@ -23,42 +23,81 @@ def test_position(request, company_id, caller_id):
 	
 def splash(request):
 	t = loader.get_template('bootstrap.html')
-	if (request.GET.has_key('caller_id')):
-		caller_id = request.GET.get('caller_id')
-		caller_id = re.sub("\D", "", caller_id)
+	
+	#If redirected to the splash page with either input or a false tag (used only for '1' corner case)
+	if (request.GET.has_key('input') or request.GET.has_key("false")):
 		
-		#
-		if (len(caller_id) == 11):
-				caller_id = caller_id[1:11]
+		#Set input string (empty if false)
+		if (request.GET.has_key("false")):
+			input_string = ''
+		else:
+			input_string = request.GET.get('input')
 		
+		#Strip non-numbers
+		caller_id = re.sub("\D", "", input_string)
+		
+		#Try and format as phone number (if more than 10 characters, ignore first (i.e. 1) and get next 10 characters)
+		if (len(caller_id) >= 11):
+			caller_id = caller_id[1:11]
+		
+		#If the customer exists, redirect to dashboard
 		try:
 			customer = Customer.objects.get(phone_number = caller_id)
-			reverse_location = reverse('dashboard') + "?caller_id=" + caller_id
+			reverse_location = reverse('dashboard') + "?input=" + caller_id
 			return redirect(reverse_location)
+		#If the customer does not exist
 		except Customer.DoesNotExist:
-			c = Context({'statement': 'That number does not exist. Try again!', 'fade': 'false'})
+			#Try and find the company
+			try:
+				company = Company.objects.get(name__iexact = input_string)
+				reverse_location = reverse('company') + "?input=" + input_string
+				return redirect(reverse_location)
+			except Company.DoesNotExist:
+				c = Context({'statement': 'Sorry! We were unable to find that record.', 'fade': 'true'})
+				
 	else:
 		c = Context({'statement': 'Where do you stand?', 'fade': 'true'})
+
 	if (request.GET.has_key("false")):
 		c = Context({'statement': 'That number does not exist. Try again!', 'fade': 'false'})
 	elif request.GET.has_key("hungup"):
 		c = Context({'statement': 'That number has already been hung up. Thank you for using timeinline', 'fade': 'false'})
+	
+	return HttpResponse(t.render(c))
 
-	return HttpResponse(t.render(c))
+def company(request):
+	company_name = request.GET.get('input')
 	
-def callslist(request):
-	calls = Call.objects.all()
-	t = loader.get_template('callslist.html')
-	c = Context({'calls':calls})
-	return HttpResponse(t.render(c))
+	#Fix crash on 1
+	if (company_name == '1'):
+		reverse_location = reverse('splash')  + "?false"
+		return redirect(reverse_location)
 	
-def testcalls(request):
-	t = loader.get_template('test.html')
-	c = Context()
-	return HttpResponse(t.render(c))
+	try:
+		company = Company.objects.get(name__iexact = company_name)
+	#Create new customer
+	except Company.DoesNotExist:
+		reverse_location = reverse('splash') + "?input=" + company_name
+		return redirect(reverse_location)
+	hour_range = range(24) #OPEN 9-5
+	day_range = range(7) #7 Days/week
+	line_length = len(active_calls(company))
+	avg_serv = avg_serv_rate(company)
+	avg_waits = avg_by_day_hour_range(company, True, True, hour_range, day_range)
+	reps = working_reps(company)
+	estimate = round(est_wait(avg_serv, reps, line_length), 0)
+	if estimate == 0:
+		estimate = 1
+	avg_waits = []
+	# for i in day_range:
+	# 	avg_waits.append([1]*len(hour_range))
+	for i in range(len(avg_waits)):
+		avg_waits[i] = avg_waits[i][9:18]
+	
+	return render_to_response('bootstrap-company.html', {'line_length':line_length, 'estimate':estimate, 'avg_waits': avg_waits, 'phone_number':company.phone_number, 'website':company.website_link, 'desc':company.description})
 	
 def dashboard(request):
-	caller_id = request.GET.get('caller_id')
+	caller_id = request.GET.get('input')
 	
 	#Fix crash on 1
 	if (caller_id == '1'):
@@ -71,7 +110,7 @@ def dashboard(request):
 	try:
 		customer = Customer.objects.get(phone_number = caller_id)
 	except Customer.DoesNotExist:
-		reverse_location = reverse('splash') + "?caller_id=" + caller_id
+		reverse_location = reverse('splash') + "?input=" + caller_id
 		return redirect(reverse_location)
 	
 	
@@ -91,6 +130,17 @@ def dashboard(request):
 		return HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
 	return render_to_response('bootstrap-dashboard.html', response_dict);
 
+def callslist(request):
+	calls = Call.objects.all()
+	t = loader.get_template('callslist.html')
+	c = Context({'calls':calls})
+	return HttpResponse(t.render(c))
+
+def testcalls(request):
+	t = loader.get_template('test.html')
+	c = Context()
+	return HttpResponse(t.render(c))
+		
 # convert to Eastern (Standard) Time
 def toET(start_hr,end_hr):
 	EST = True
